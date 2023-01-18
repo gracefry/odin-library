@@ -10,9 +10,31 @@
 </head>
 <body>
     <p>Shh this is a library</p>
-    <button>New book</button>
+    <button id="open-form">New book</button>
     <div class="shelf">
         <p>Books:</p>
+    </div>
+
+    <div class="form-popup">
+        <form action="#">
+            <h1>New Book</h1>
+
+            <label for="title">Title</label>
+            <input type="text" placeholder="Title" id="title" required>
+
+            <label for="author">Author</label>
+            <input type="text" placeholder="Author" id="author" required>
+
+            <label for="pages">Pages</label>
+            <input type="number" placeholder=0 id="pages" required>
+
+            <label for="read">Finished reading?</label>
+            <input type="checkbox" placeholder="Title" id="read" required>
+
+            <button type="submit" id="add-book">Add book</button>
+            <button type="reset">Reset</button>    
+            <button id="close-form">Close</button>    
+        </form>
     </div>
 </body>
 </html>
