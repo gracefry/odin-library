@@ -1,5 +1,10 @@
 let myLibrary = [];
 const shelf = document.querySelector(".shelf");
+const formDiv = document.querySelector(".form-popup");
+const form = document.querySelector("#form");
+const openButton = document.getElementById("open-form");
+const closeButton = document.getElementById("close-form");
+const addButton = document.getElementById("add-book");
 
 function Book(author, title, pages, hasRead) {
     this.author = author;
@@ -14,9 +19,15 @@ function addBookToLibrary(book) {
 }
 
 function displayBooks() {
-    for (book of myLibrary) {
-        let read = "unread";
+    // Clear existing display
+    if (shelf.hasChildNodes) {
+        shelf.replaceChildren();
+    }
 
+    // Loop
+    for (book of myLibrary) {
+        // Checkbox
+        let read = "unread";
         if (book.hasRead) {
             read = "read";
         }
@@ -27,27 +38,19 @@ function displayBooks() {
     }
 }
 
-const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, true);
-addBookToLibrary(theHobbit);
-displayBooks();
-
-const form = document.querySelector(".form-popup");
-const openButton = document.getElementById("open-form");
-const closeButton = document.getElementById("close-form");
-const addButton = document.getElementById("add-book");
-
-
 function openForm() {
-    form.style.display = "flex";
+    formDiv.style.display = "flex";
 }
 
 function closeForm() {
-    form.style.display = "none";
+    formDiv.style.display = "none";
 }
 
 openButton.addEventListener("click", openForm);
 closeButton.addEventListener("click", closeForm);
-addButton.addEventListener("click", () => {
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    // Get values from form
     let title = document.getElementById("title").value;
     let author = document.getElementById("author").value;
     let pages = document.getElementById("pages").value;
@@ -57,6 +60,5 @@ addButton.addEventListener("click", () => {
     addBookToLibrary(book);
     displayBooks();
 });
-
 
 
