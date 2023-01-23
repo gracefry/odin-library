@@ -9,32 +9,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p>Shh this is a library</p>
-    <button id="open-form">New book</button>
-    <div class="shelf">
-        <p>Books:</p>
+    <div class="backdrop"></div>
+    <div class="popup-modal">
+        <div class="form-popup">
+            <form action="#" id="form">
+                <div class="section">
+                    <label for="title">Title</label>
+                    <input type="text" placeholder="Title" id="title" required>
+                </div>
+    
+                <div class="section">
+                    <label for="author">Author</label>
+                    <input type="text" placeholder="Author" id="author" required>
+                </div>
+
+                <div class="section">
+                    <label for="pages">Pages</label>
+                    <input type="number" placeholder=0 id="pages" required>
+                </div>
+
+                <div class="section">
+                    <label for="read">Finished reading?</label>
+                    <input type="checkbox" placeholder="Title" id="read">
+                </div>
+    
+                <button type="submit" id="add-book">Add book</button>
+                <button type="reset">Reset</button>    
+                <button id="close-form">Close</button>    
+            </form>
+        </div>
     </div>
-
-    <div class="form-popup">
-        <form action="#" id="form">
-            <h1>New Book</h1>
-
-            <label for="title">Title</label>
-            <input type="text" placeholder="Title" id="title" required>
-
-            <label for="author">Author</label>
-            <input type="text" placeholder="Author" id="author" required>
-
-            <label for="pages">Pages</label>
-            <input type="number" placeholder=0 id="pages" required>
-
-            <label for="read">Finished reading?</label>
-            <input type="checkbox" placeholder="Title" id="read">
-
-            <button type="submit" id="add-book">Add book</button>
-            <button type="reset">Reset</button>    
-            <button id="close-form">Close</button>    
-        </form>
-    </div>
-</body>
+    <div class="container">
+        <div class="header">The Book Repository</div>
+        <div class="article">
+            <button id="open-form">New book</button>
+            <div class="shelf"></div>
+        </div>
+      </div>
+   </body>
 </html>

@@ -2,9 +2,21 @@ let myLibrary = [];
 const shelf = document.querySelector(".shelf");
 const formDiv = document.querySelector(".form-popup");
 const form = document.querySelector("#form");
+const editForm = document.querySelector("#edit-form");
 const openButton = document.getElementById("open-form");
 const closeButton = document.getElementById("close-form");
 const addButton = document.getElementById("add-book");
+const backdrop = document.getElementById('backdrop')
+let readButtonsArray = [];
+let deleteButtonsArray = [];
+
+function toggleModal(e) {
+    e.preventDefault();
+    const modalDiv = document.querySelector('.popup-modal');
+    const backdrop = document.querySelector('.backdrop')
+    modalDiv.classList.toggle('show');
+    backdrop.classList.toggle('show');
+}
 
 function Book(author, title, pages, hasRead) {
     this.author = author;
@@ -13,9 +25,12 @@ function Book(author, title, pages, hasRead) {
     this.hasRead = hasRead;
 }
 
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-    console.log(myLibrary);
+function getRead(book) {
+    return book.hasRead;
+}
+
+function setRead(book, bool) {
+    book.hasRead = bool;
 }
 
 function displayBooks() {
@@ -26,28 +41,62 @@ function displayBooks() {
 
     // Loop
     for (book of myLibrary) {
-        // Checkbox
-        let read = "unread";
-        if (book.hasRead) {
-            read = "read";
+            // Make DOM elements
+        let newBook = document.createElement("div");
+        newBook.classList.add("book");
+
+        let readQuery = "unread";
+        let readEmoji = "📕";
+
+        if (getRead(book) == true) {
+            readQuery = "read";
+            readEmoji = "📖"
         }
+        newBook.textContent = `${book.title} by ${book.author}, ${book.pages} pages, ${readQuery}`;
+        
+            // Make buttons
+            let bookButtons = document.createElement("div");
+            bookButtons.classList.add("book-buttons");
 
-        let newBook = document.createElement("p");
-        newBook.textContent = `${book.title} by ${book.author}, ${book.pages} pages, ${read}.`;
-        shelf.appendChild(newBook);
-    }
+            let readButton = document.createElement("button");
+            readButton.classList.add("read-button");
+            readButton.setAttribute("data", `${myLibrary.indexOf(book)}`);
+            readButton.textContent = readEmoji;
+            readButton.addEventListener("click", (e) => {
+                let index = e.target.getAttribute("data");
+                if (getRead(myLibrary[index])) {
+                    setRead(myLibrary[index], false);
+                } else {
+                    setRead(myLibrary[index], true);
+                }
+
+                readButton.textContent = readEmoji;
+                displayBooks();
+            });
+            readButtonsArray.push(readButton);
+            bookButtons.append(readButton);
+
+            let deleteButton = document.createElement("button");
+            deleteButton.classList.add("delete-button");
+            deleteButton.setAttribute("data", `${myLibrary.indexOf(book)}`);
+            deleteButton.textContent = "🗑️";
+            deleteButton.addEventListener("click", (e) => {
+                let index = e.target.getAttribute("data");
+                myLibrary.pop(index);
+                displayBooks();
+            });
+            deleteButtonsArray.push(deleteButton);
+            bookButtons.append(deleteButton);
+
+        newBook.appendChild(bookButtons);   
+        shelf.appendChild(newBook);          
+        }
 }
 
-function openForm() {
-    formDiv.style.display = "flex";
-}
+openButton.addEventListener("click", toggleModal);
 
-function closeForm() {
-    formDiv.style.display = "none";
-}
+closeButton.addEventListener("click", toggleModal);
 
-openButton.addEventListener("click", openForm);
-closeButton.addEventListener("click", closeForm);
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     // Get values from form
@@ -56,9 +105,10 @@ form.addEventListener("submit", (e) => {
     let pages = document.getElementById("pages").value;
     let read = document.getElementById("read").checked;
 
+    // Make book
     let book = new Book(author, title, pages, read);
-    addBookToLibrary(book);
+    myLibrary.push(book);
+
     displayBooks();
 });
-
 
